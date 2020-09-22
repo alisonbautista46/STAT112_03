@@ -267,18 +267,14 @@ Trips %>%
   
 ```{r fig.height= 5}
 Trips %>%
-  count(sstation, client) %>%
+  group_by(sstation, client) %>%
+  summarize(n = n()) %>%
+  mutate(prop = n/sum(n)) %>%
+  filter(client == "Casual") %>%
   rename(name = sstation) %>%
-  right_join(Stations, by = "name") %>%
-  group_by(name) %>%
-  mutate(total_prop = n/sum(n)) %>% 
-  pivot_wider(names_from = client,
-              values_from = total_prop) %>%
-  select(name, lat, long, Casual)  %>%
-  drop_na() %>%
-  group_by(name) %>%
-  ggplot(aes(x = long, y = lat, color = Casual)) +
-  geom_point()+
+  left_join(Stations) %>%
+  ggplot(aes(x = long, y = lat, color = prop, size = prop)) +
+  geom_point(alpha = .8)+
   scale_color_continuous(high = "#132B43", low = "#56B1F7")
  
 ```
