@@ -12,7 +12,7 @@ output:
 
 
 ```{r setup, include=FALSE}
-#knitr::opts_chunk$set(echo = TRUE, error=TRUE, message=FALSE, warning=FALSE)
+knitr::opts_chunk$set(echo = TRUE, error=TRUE, message=FALSE, warning=FALSE)
 ```
 
 ```{r libraries}
@@ -89,6 +89,16 @@ summarized_garden_harvest %>%
 
   3. I would like to understand how much money I "saved" by gardening, for each vegetable type. Describe how I could use the `garden_harvest` and `supply_cost` datasets, along with data from somewhere like [this](https://products.wholefoodsmarket.com/search?sort=relevance&store=10542) to answer this question. You can answer this in words, referencing various join functions. You don't need R code but could provide some if it's helpful.
   
+  I would first find the total amount harvested in pounds for each vegetable and variety. To do this, I would use the following code:
+  
+
+```{r}
+garden_harvest %>%
+  group_by(vegetable, variety) %>%
+  summarize(tot_harvest_lbs=sum(weight*0.00220462))
+```
+
+Once I have calculated the total weight, I would then use a right join with the supply_costs dataset. Now that all of the data is in the same table, I would multiple the total weight in lbs of each vegetable variety with its in-store price per lb, which will create a new column giving the amount saved by each vegetable. To find the overall total of how much was saved, I would then sum the column of amount saved per vegetable.
 
 
   4. Subset the data to tomatoes. Reorder the tomato varieties from smallest to largest first harvest date. Create a barplot of total harvest in pounds for each variety, in the new order.
@@ -96,7 +106,8 @@ summarized_garden_harvest %>%
 ```{r}
 garden_harvest %>%
   filter(vegetable %in% c("tomatoes")) %>%
-  mutate(variety2 = fct_reorder(variety, date,  .desc = TRUE)) %>%
+  mutate(variety2 = fct_reorder(variety, date,
+                                .desc = TRUE)) %>%
   group_by(variety2) %>% 
   summarize(tot_harvest_lbs = 
               sum(weight*0.00220462), 
@@ -170,10 +181,10 @@ Trips %>%
   
 ```{r}
 Trips %>%
-  mutate(time_of_day = round(hour(sdate) + minute(sdate)/60.0, digits = 1)) %>%
+  mutate(time_of_day = round(hour(sdate) +
+         minute(sdate)/60.0, digits = 1)) %>%
   ggplot(aes(x = time_of_day)) +
   geom_density()
-
 ```
   
   9. A bar graph of the events versus day of the week. Put day on the y-axis.
@@ -183,7 +194,6 @@ Trips %>%
   mutate(day = wday(sdate, label = TRUE)) %>%
   ggplot(aes(y = day)) +
   geom_bar()
-  
 ```
   
   10. Facet your graph from exercise 8. by day of the week. Is there a pattern?
@@ -191,7 +201,8 @@ Trips %>%
 Yes, there are less trips being made during the middle of the day from Mon-Fri, while the opposite appears to be true on Sat & Sun. This can likely be explained by people using bikes to get to and from work during the week, and for more lesiurly rides during the weekend.
 ```{r}
 Trips %>%
-  mutate(time_of_day = round(hour(sdate) + minute(sdate)/60.0, digits = 1)) %>%
+  mutate(time_of_day = round(hour(sdate) +
+         minute(sdate)/60.0, digits = 1)) %>%
   mutate(day = wday(sdate, label = TRUE)) %>%
   ggplot(aes(x = time_of_day)) +
   geom_density()+
@@ -204,7 +215,8 @@ The variable `client` describes whether the renter is a regular user (level `Reg
   
 ```{r}
 Trips %>%
-  mutate(time_of_day = round(hour(sdate) + minute(sdate)/60.0, digits = 1)) %>%
+  mutate(time_of_day = round(hour(sdate) +
+         minute(sdate)/60.0, digits = 1)) %>%
   mutate(day = wday(sdate, label = TRUE)) %>%
   ggplot(aes(x = time_of_day, fill = client)) +
   geom_density(alpha = .5, color = NA)+
@@ -216,10 +228,12 @@ Trips %>%
   This graph shows the proportions of each type of rider out of the total. Meaning, the area beneath the graph = 1, where the colors stem from how much out of the total each rider is registered as. This graph does a good job in showing how many riders are registered versus not, but does not a good job of showing its usage and distribution across time. The previous graph is better in showing rider usage throughout the day, and I think this is ultimately the better graph in showing who uses the bike rental service and when.
 ```{r}
 Trips %>%
-  mutate(time_of_day = round(hour(sdate) + minute(sdate)/60.0, digits = 1)) %>%
+  mutate(time_of_day = round(hour(sdate) +
+         minute(sdate)/60.0, digits = 1)) %>%
   mutate(day = wday(sdate, label = TRUE)) %>%
   ggplot(aes(x = time_of_day, fill = client)) +
-  geom_density(alpha = .5, color = NA, position = position_stack())+
+  geom_density(alpha = .5, color = NA, 
+               position = position_stack())+
   facet_wrap(vars(day))
 ```
   
@@ -227,24 +241,27 @@ Trips %>%
   
 ```{r fig.width= 8, fig.height=6}
 Trips %>%
-  mutate(time_of_day = round(hour(sdate) + minute(sdate)/60.0, digits = 1)) %>%
+  mutate(time_of_day = round(hour(sdate) +
+         minute(sdate)/60.0, digits = 1)) %>%
   mutate(day = wday(sdate, label = TRUE)) %>%
   mutate(weekday = ifelse(day %in% c("Sat", "Sun"), "weekend", "weekday"))  %>%
-   ggplot(aes(x = time_of_day, fill = client)) +
+  ggplot(aes(x = time_of_day, fill = client)) +
   geom_density(alpha = .5, color = NA)+
   facet_wrap(vars(weekday))
 
 ```
   
   14. Change the graph from the previous problem to facet on `client` and fill with `weekday`. What information does this graph tell you that the previous didn't? Is one graph better than the other?
+  
   This graph tells us that most Casual clients use the bike rental service from midday to late evening no matter the day of the week. Meanwhile, the Registered clients use the bike rental service in the mornings and evenings during the week, and during the midday to late evening during the weekends. I don't necessarily think one graph is better than the other, but is rather more dependent on the question that you are trying to answer (i.e weekend behavior vs. user behavior)
   
 ```{r fig.width= 8, fig.height=6}
 Trips %>%
-  mutate(time_of_day = round(hour(sdate) + minute(sdate)/60.0, digits = 1)) %>%
+  mutate(time_of_day = round(hour(sdate) +
+         minute(sdate)/60.0, digits = 1)) %>%
   mutate(day = wday(sdate, label = TRUE)) %>%
   mutate(weekday = ifelse(day %in% c("Sat", "Sun"), "weekend", "weekday"))  %>%
-   ggplot(aes(x = time_of_day, fill = weekday)) +
+  ggplot(aes(x = time_of_day, fill = weekday)) +
   geom_density(alpha = .5, color = NA)+
   facet_wrap(vars(client))
 ```
@@ -263,6 +280,7 @@ Trips %>%
 ```
   
   16. Only 14.4% of the trips in our data are carried out by casual users. Create a plot that shows which area(s) have stations with a much higher percentage of departures by casual users. What patterns do you notice? (Again, we'll improve this next week when we learn about maps).
+  
   I notice that there are is a higher proportion of Casual riders using services from the middle of the cluster (lat 38.9, long -77.05) to the stations furthest away from this cluster(lat 39.1, long -77.2).
   
 ```{r fig.height= 5}
@@ -273,10 +291,10 @@ Trips %>%
   filter(client == "Casual") %>%
   rename(name = sstation) %>%
   left_join(Stations) %>%
-  ggplot(aes(x = long, y = lat, color = prop, size = prop)) +
+  ggplot(aes(x = long, y = lat, color = prop, 
+             size = prop)) +
   geom_point(alpha = .8)+
   scale_color_continuous(high = "#132B43", low = "#56B1F7")
- 
 ```
   
 ### Spatiotemporal patterns
@@ -339,12 +357,17 @@ kids %>%
   geom_line(color = "white", size =2) +
   theme(legend.position = "") +
   theme_void() +
-  theme(plot.background = element_rect(fill = "lightsteelblue4")) +
-  facet_geo(vars(state), grid = "us_state_grid3", label = "name") +
+  theme(plot.background = element_rect(
+        fill = "lightsteelblue4")) +
+  facet_geo(vars(state), grid = "us_state_grid3",
+            label = "name") +
   labs(title="Change in public spending on libraries",
-       subtitle = "Dollars spent per child, adjusted for inflation")+
-  theme(plot.title = element_text(hjust = 0.5, size =20, face = "bold"),
-        plot.subtitle = element_text(hjust = 0.5, size = 15))
+       subtitle = "Dollars spent per child,adjusted for inflation")+
+  theme(plot.title = element_text(hjust = 0.5, 
+                                  size =20, 
+                                  face = "bold"),
+        plot.subtitle = element_text(hjust = 0.5,
+                                     size = 15))
   
 ```
 

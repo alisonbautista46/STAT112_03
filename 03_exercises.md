@@ -16,42 +16,8 @@ output:
 
 ```r
 library(tidyverse)     # for graphing and data cleaning
-```
-
-```
-## -- Attaching packages --------------- tidyverse 1.3.0 --
-```
-
-```
-## v ggplot2 3.3.2     v purrr   0.3.4
-## v tibble  3.0.3     v dplyr   1.0.2
-## v tidyr   1.1.2     v stringr 1.4.0
-## v readr   1.3.1     v forcats 0.5.0
-```
-
-```
-## -- Conflicts ------------------ tidyverse_conflicts() --
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()
-```
-
-```r
 library(googlesheets4) # for reading googlesheet data
 library(lubridate)     # for date manipulation
-```
-
-```
-## 
-## Attaching package: 'lubridate'
-```
-
-```
-## The following objects are masked from 'package:base':
-## 
-##     date, intersect, setdiff, union
-```
-
-```r
 library(ggthemes)      # for even more plotting themes
 library(geofacet)      # for special faceting with US map layout
 gs4_deauth()           # To not have to authorize each time you knit.
@@ -63,58 +29,18 @@ theme_set(theme_minimal())       # My favorite ggplot() theme :)
 #Lisa's garden data
 garden_harvest <- read_sheet("https://docs.google.com/spreadsheets/d/1DekSazCzKqPS2jnGhKue7tLxRU3GVL1oxi-4bEM5IWw/edit?usp=sharing") %>% 
   mutate(date = ymd(date))
-```
 
-```
-## Reading from "2020_harvest"
-```
-
-```
-## Range "Sheet1"
-```
-
-```r
 # Seeds/plants (and other garden supply) costs
 supply_costs <- read_sheet("https://docs.google.com/spreadsheets/d/1dPVHwZgR9BxpigbHLnA0U99TtVHHQtUzNB9UR0wvb7o/edit?usp=sharing",
   col_types = "ccccnn")
-```
 
-```
-## Reading from "2020_seeds"
-## Range "Sheet1"
-```
-
-```r
 # Planting dates and locations
 plant_date_loc <- read_sheet("https://docs.google.com/spreadsheets/d/11YH0NtXQTncQbUse5wOsTtLSKAiNogjUA21jnX5Pnl4/edit?usp=sharing",
   col_types = "cccnDlc")%>% 
   mutate(date = ymd(date))
-```
 
-```
-## Reading from "seeds_planted"
-## Range "Sheet1"
-```
-
-```
-## Warning in .Primitive("as.double")(x, ...): NAs introduced by coercion
-```
-
-```r
 # Tidy Tuesday data
 kids <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-09-15/kids.csv')
-```
-
-```
-## Parsed with column specification:
-## cols(
-##   state = col_character(),
-##   variable = col_character(),
-##   year = col_double(),
-##   raw = col_double(),
-##   inf_adj = col_double(),
-##   inf_adj_perchild = col_double()
-## )
 ```
 
 
@@ -148,10 +74,6 @@ garden_harvest %>%
               values_from = daily_wt_lbs)
 ```
 
-```
-## `summarise()` regrouping output by 'vegetable' (override with `.groups` argument)
-```
-
 <div data-pagedtable="false">
   <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["vegetable"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Sat"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Mon"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Tue"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Thu"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Fri"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["Sun"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["Wed"],"name":[8],"type":["dbl"],"align":["right"]}],"data":[{"1":"asparagus","2":"0.04409240","3":"NA","4":"NA","5":"NA","6":"NA","7":"NA","8":"NA"},{"1":"basil","2":"0.41005932","3":"0.0661386","4":"0.11023100","5":"0.02645544","6":"0.46737944","7":"NA","8":"NA"},{"1":"beans","2":"4.70906832","3":"6.5080382","4":"4.38719380","5":"3.39291018","6":"1.52559704","7":"1.52780166","8":"4.08295624"},{"1":"beets","2":"0.37919464","3":"0.6724091","4":"0.15873264","5":"11.89172028","6":"0.02425082","7":"0.32187452","8":"0.18298346"},{"1":"broccoli","2":"NA","3":"0.8201186","4":"NA","5":"NA","6":"NA","7":"NA","8":"0.70768302"},{"1":"carrots","2":"2.33028334","3":"0.8708249","4":"0.35273920","5":"2.67420406","6":"2.13848140","7":"NA","8":"NA"},{"1":"chives","2":"NA","3":"NA","4":"NA","5":"NA","6":"NA","7":"NA","8":"0.01763696"},{"1":"cilantro","2":"0.03747854","3":"NA","4":"0.00440924","5":"NA","6":"0.07275246","7":"NA","8":"NA"},{"1":"corn","2":"1.31615814","3":"0.7583893","4":"0.72752460","5":"NA","6":"3.44802568","7":"1.45725382","8":"5.30211110"},{"1":"cucumbers","2":"9.64080326","3":"4.7752069","4":"10.04645334","5":"3.30693000","6":"7.42956940","7":"3.10410496","8":"5.30652034"},{"1":"edamame","2":"4.68922674","3":"NA","4":"1.40213832","5":"NA","6":"NA","7":"NA","8":"NA"},{"1":"hot peppers","2":"NA","3":"1.2588380","4":"0.14109568","5":"NA","6":"NA","7":"NA","8":"0.06834322"},{"1":"jalapeño","2":"0.93916812","3":"0.4343101","4":"0.54895038","5":"0.22487124","6":"1.29411194","7":"NA","8":"0.09479866"},{"1":"kale","2":"1.49032312","3":"1.7659006","4":"0.28219136","5":"NA","6":"NA","7":"0.38139926","8":"0.61729360"},{"1":"kohlrabi","2":"NA","3":"NA","4":"NA","5":"0.42108242","6":"NA","7":"NA","8":"NA"},{"1":"lettuce","2":"1.10671924","3":"2.4581513","4":"0.91712192","5":"2.45153744","6":"1.80117454","7":"1.15963012","8":"1.14860702"},{"1":"onions","2":"1.34040896","3":"0.5092672","4":"0.70768302","5":"0.60186126","6":"0.07275246","7":"0.26014516","8":"NA"},{"1":"peas","2":"2.85277828","3":"4.6341112","4":"2.06793356","5":"3.39731942","6":"0.93696350","7":"2.05691046","8":"1.08026380"},{"1":"peppers","2":"1.38229674","3":"0.2535313","4":"1.44402610","5":"0.70988764","6":"0.14991416","7":"NA","8":"0.94798660"},{"1":"potatoes","2":"2.15611836","3":"0.9700328","4":"NA","5":"1.66669272","6":"NA","7":"NA","8":"4.57017726"},{"1":"pumpkins","2":"92.68883866","3":"NA","4":"31.85675900","5":"NA","6":"NA","7":"NA","8":"NA"},{"1":"radish","2":"0.23148510","3":"0.1962112","4":"0.09479866","5":"0.14770954","6":"0.19400656","7":"0.08157094","8":"NA"},{"1":"raspberries","2":"0.53351804","3":"0.1300726","4":"0.33510224","5":"0.28880522","6":"0.57099658","7":"NA","8":"NA"},{"1":"spinach","2":"0.26014516","3":"0.1477095","4":"0.49603950","5":"0.23368972","6":"0.19621118","7":"0.48722102","8":"0.21384814"},{"1":"squash","2":"56.22221924","3":"NA","4":"18.46810174","5":"NA","6":"NA","7":"NA","8":"NA"},{"1":"strawberries","2":"0.16975574","3":"0.4784025","4":"NA","5":"0.08818480","6":"0.48722102","7":"0.08157094","8":"NA"},{"1":"Swiss chard","2":"NA","3":"1.0736499","4":"0.07054784","5":"2.23107544","6":"0.56438272","7":"0.73634308","8":"0.71429688"},{"1":"tomatoes","2":"25.94396816","3":"9.7091465","4":"48.75076206","5":"34.51773534","6":"58.67596130","7":"63.68485794","8":"31.55913530"},{"1":"zucchini","2":"3.41495638","3":"12.1959578","4":"16.46851140","5":"5.74964896","6":"18.72163304","7":"12.23564100","8":"2.04147812"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
@@ -166,13 +88,7 @@ summarized_garden_harvest <- garden_harvest%>%
   group_by(variety, date) %>%
   mutate(wt_lbs = weight*0.00220462) %>%
   summarize(daily_wt_lbs = sum(wt_lbs))
-```
 
-```
-## `summarise()` regrouping output by 'variety' (override with `.groups` argument)
-```
-
-```r
 summarized_garden_harvest %>%
   left_join(plant_date_loc,
             by = "variety")
@@ -186,6 +102,23 @@ summarized_garden_harvest %>%
 
   3. I would like to understand how much money I "saved" by gardening, for each vegetable type. Describe how I could use the `garden_harvest` and `supply_cost` datasets, along with data from somewhere like [this](https://products.wholefoodsmarket.com/search?sort=relevance&store=10542) to answer this question. You can answer this in words, referencing various join functions. You don't need R code but could provide some if it's helpful.
   
+  I would first find the total amount harvested in pounds for each vegetable and variety. To do this, I would use the following code:
+  
+
+
+```r
+garden_harvest %>%
+  group_by(vegetable, variety) %>%
+  summarize(tot_harvest_lbs=sum(weight*0.00220462))
+```
+
+<div data-pagedtable="false">
+  <script data-pagedtable-source type="application/json">
+{"columns":[{"label":["vegetable"],"name":[1],"type":["chr"],"align":["left"]},{"label":["variety"],"name":[2],"type":["chr"],"align":["left"]},{"label":["tot_harvest_lbs"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"asparagus","2":"asparagus","3":"0.04409240"},{"1":"basil","2":"Isle of Naxos","3":"1.08026380"},{"1":"beans","2":"Bush Bush Slender","3":"21.92274128"},{"1":"beans","2":"Chinese Red Noodle","3":"0.78484472"},{"1":"beans","2":"Classic Slenderette","3":"3.42597948"},{"1":"beets","2":"Gourmet Golden","3":"7.02171470"},{"1":"beets","2":"leaves","3":"0.22266662"},{"1":"beets","2":"Sweet Merlin","3":"6.38678414"},{"1":"broccoli","2":"Main Crop Bravado","3":"0.70768302"},{"1":"broccoli","2":"Yod Fah","3":"0.82011864"},{"1":"carrots","2":"Bolero","3":"3.99477144"},{"1":"carrots","2":"Dragon","3":"2.15832298"},{"1":"carrots","2":"greens","3":"0.37258078"},{"1":"carrots","2":"King Midas","3":"1.84085770"},{"1":"chives","2":"perrenial","3":"0.01763696"},{"1":"cilantro","2":"cilantro","3":"0.11464024"},{"1":"corn","2":"Dorinny Sweet","3":"11.40670388"},{"1":"corn","2":"Golden Bantam","3":"1.60275874"},{"1":"cucumbers","2":"pickling","3":"43.60958822"},{"1":"edamame","2":"edamame","3":"6.09136506"},{"1":"hot peppers","2":"thai","3":"0.14770954"},{"1":"hot peppers","2":"variety","3":"1.32056738"},{"1":"jalapeño","2":"giant","3":"3.53621048"},{"1":"kale","2":"Heirloom Lacinto","3":"4.53710796"},{"1":"kohlrabi","2":"Crispy Colors Duo","3":"0.42108242"},{"1":"lettuce","2":"Farmer's Market Blend","3":"3.80296950"},{"1":"lettuce","2":"Lettuce Mixture","3":"4.19539186"},{"1":"lettuce","2":"mustard greens","3":"0.05070626"},{"1":"lettuce","2":"reseed","3":"0.09920790"},{"1":"lettuce","2":"Tatsoi","3":"2.89466606"},{"1":"onions","2":"Delicious Duo","3":"0.58422430"},{"1":"onions","2":"Long Keeping Rainbow","3":"2.90789378"},{"1":"peas","2":"Magnolia Blossom","3":"7.45822946"},{"1":"peas","2":"Super Sugar Snap","3":"9.56805080"},{"1":"peppers","2":"green","3":"1.80337916"},{"1":"peppers","2":"variety","3":"3.08426338"},{"1":"potatoes","2":"purple","3":"2.35894340"},{"1":"potatoes","2":"Russet","3":"1.38670598"},{"1":"potatoes","2":"yellow","3":"5.61737176"},{"1":"pumpkins","2":"Cinderella's Carraige","3":"32.87308882"},{"1":"pumpkins","2":"New England Sugar","3":"35.40178796"},{"1":"pumpkins","2":"saved","3":"56.27072088"},{"1":"radish","2":"Garden Party Mix","3":"0.94578198"},{"1":"raspberries","2":"perrenial","3":"1.85849466"},{"1":"spinach","2":"Catalina","3":"2.03486426"},{"1":"squash","2":"Blue (saved)","3":"35.09093654"},{"1":"squash","2":"delicata","3":"9.81055900"},{"1":"squash","2":"Red Kuri","3":"11.80574010"},{"1":"squash","2":"Waltham Butternut","3":"17.98308534"},{"1":"strawberries","2":"perrenial","3":"1.30513504"},{"1":"Swiss chard","2":"Neon Glow","3":"5.39029590"},{"1":"tomatoes","2":"Amish Paste","3":"46.26174608"},{"1":"tomatoes","2":"Better Boy","3":"27.60404702"},{"1":"tomatoes","2":"Big Beef","3":"20.50076138"},{"1":"tomatoes","2":"Black Krim","3":"14.46010258"},{"1":"tomatoes","2":"Bonny Best","3":"21.44654336"},{"1":"tomatoes","2":"Brandywine","3":"14.72465698"},{"1":"tomatoes","2":"Cherokee Purple","3":"15.22951496"},{"1":"tomatoes","2":"grape","3":"26.05860840"},{"1":"tomatoes","2":"Jet Star","3":"14.26168678"},{"1":"tomatoes","2":"Mortgage Lifter","3":"17.81773884"},{"1":"tomatoes","2":"Old German","3":"18.85170562"},{"1":"tomatoes","2":"volunteers","3":"35.62445458"},{"1":"zucchini","2":"Romanesco","3":"70.82782674"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+
+Once I have calculated the total weight, I would then use a right join with the supply_costs dataset. Now that all of the data is in the same table, I would multiple the total weight in lbs of each vegetable variety with its in-store price per lb, which will create a new column giving the amount saved by each vegetable. To find the overall total of how much was saved, I would then sum the column of amount saved per vegetable.
 
 
   4. Subset the data to tomatoes. Reorder the tomato varieties from smallest to largest first harvest date. Create a barplot of total harvest in pounds for each variety, in the new order.
@@ -194,7 +127,8 @@ summarized_garden_harvest %>%
 ```r
 garden_harvest %>%
   filter(vegetable %in% c("tomatoes")) %>%
-  mutate(variety2 = fct_reorder(variety, date,  .desc = TRUE)) %>%
+  mutate(variety2 = fct_reorder(variety, date,
+                                .desc = TRUE)) %>%
   group_by(variety2) %>% 
   summarize(tot_harvest_lbs = 
               sum(weight*0.00220462), 
@@ -203,11 +137,7 @@ garden_harvest %>%
   geom_col()
 ```
 
-```
-## `summarise()` ungrouping output (override with `.groups` argument)
-```
-
-![](03_exercises_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+![](03_exercises_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
 
   5. In the `garden_harvest` data, create two new variables: one that makes the varieties lowercase and another that finds the length of the variety name. Arrange the data by vegetable and length of variety name (smallest to largest), with one row for each vegetable variety. HINT: use `str_to_lower()`, `str_length()`, and `distinct()`.
   
@@ -270,17 +200,6 @@ Trips <- readRDS(gzcon(url(data_site)))
 Stations<-read_csv("http://www.macalester.edu/~dshuman1/data/112/DC-Stations.csv")
 ```
 
-```
-## Parsed with column specification:
-## cols(
-##   name = col_character(),
-##   lat = col_double(),
-##   long = col_double(),
-##   nbBikes = col_double(),
-##   nbEmptyDocks = col_double()
-## )
-```
-
 **NOTE:** The `Trips` data table is a random subset of 10,000 trips from the full quarterly data. Start with this small data table to develop your analysis commands. **When you have this working well, you should access the full data set of more than 600,000 events by removing `-Small` from the name of the `data_site`.**
 
 ### Temporal patterns
@@ -296,19 +215,20 @@ Trips %>%
   geom_density()
 ```
 
-![](03_exercises_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
+![](03_exercises_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
   
   8. A density plot of the events versus time of day.  You can use `mutate()` with `lubridate`'s  `hour()` and `minute()` functions to extract the hour of the day and minute within the hour from `sdate`. Hint: A minute is 1/60 of an hour, so create a variable where 3:30 is 3.5 and 3:45 is 3.75.
   
 
 ```r
 Trips %>%
-  mutate(time_of_day = round(hour(sdate) + minute(sdate)/60.0, digits = 1)) %>%
+  mutate(time_of_day = round(hour(sdate) +
+         minute(sdate)/60.0, digits = 1)) %>%
   ggplot(aes(x = time_of_day)) +
   geom_density()
 ```
 
-![](03_exercises_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
+![](03_exercises_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
   
   9. A bar graph of the events versus day of the week. Put day on the y-axis.
   
@@ -320,7 +240,7 @@ Trips %>%
   geom_bar()
 ```
 
-![](03_exercises_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
+![](03_exercises_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
   
   10. Facet your graph from exercise 8. by day of the week. Is there a pattern?
   
@@ -328,14 +248,15 @@ Yes, there are less trips being made during the middle of the day from Mon-Fri, 
 
 ```r
 Trips %>%
-  mutate(time_of_day = round(hour(sdate) + minute(sdate)/60.0, digits = 1)) %>%
+  mutate(time_of_day = round(hour(sdate) +
+         minute(sdate)/60.0, digits = 1)) %>%
   mutate(day = wday(sdate, label = TRUE)) %>%
   ggplot(aes(x = time_of_day)) +
   geom_density()+
   facet_wrap(vars(day))
 ```
 
-![](03_exercises_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+![](03_exercises_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
   
 The variable `client` describes whether the renter is a regular user (level `Registered`) or has not joined the bike-rental organization (`Causal`). The next set of exercises investigate whether these two different categories of users show different rental behavior and how `client` interacts with the patterns you found in the previous exercises. Repeat the graphic from Exercise \@ref(exr:exr-temp) (d) with the following changes:
 
@@ -344,14 +265,15 @@ The variable `client` describes whether the renter is a regular user (level `Reg
 
 ```r
 Trips %>%
-  mutate(time_of_day = round(hour(sdate) + minute(sdate)/60.0, digits = 1)) %>%
+  mutate(time_of_day = round(hour(sdate) +
+         minute(sdate)/60.0, digits = 1)) %>%
   mutate(day = wday(sdate, label = TRUE)) %>%
   ggplot(aes(x = time_of_day, fill = client)) +
   geom_density(alpha = .5, color = NA)+
   facet_wrap(vars(day))
 ```
 
-![](03_exercises_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
+![](03_exercises_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
 
   12. Change the previous graph by adding the argument `position = position_stack()` to `geom_density()`. In your opinion, is this better or worse in terms of telling a story? What are the advantages/disadvantages of each?
 
@@ -359,45 +281,50 @@ Trips %>%
 
 ```r
 Trips %>%
-  mutate(time_of_day = round(hour(sdate) + minute(sdate)/60.0, digits = 1)) %>%
+  mutate(time_of_day = round(hour(sdate) +
+         minute(sdate)/60.0, digits = 1)) %>%
   mutate(day = wday(sdate, label = TRUE)) %>%
   ggplot(aes(x = time_of_day, fill = client)) +
-  geom_density(alpha = .5, color = NA, position = position_stack())+
+  geom_density(alpha = .5, color = NA, 
+               position = position_stack())+
   facet_wrap(vars(day))
 ```
 
-![](03_exercises_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
+![](03_exercises_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
   
   13. Add a new variable to the dataset called `weekend` which will be "weekend" if the day is Saturday or Sunday and  "weekday" otherwise (HINT: use the `ifelse()` function and the `wday()` function from `lubridate`). Then, update the graph from the previous problem by faceting on the new `weekend` variable. 
   
 
 ```r
 Trips %>%
-  mutate(time_of_day = round(hour(sdate) + minute(sdate)/60.0, digits = 1)) %>%
+  mutate(time_of_day = round(hour(sdate) +
+         minute(sdate)/60.0, digits = 1)) %>%
   mutate(day = wday(sdate, label = TRUE)) %>%
   mutate(weekday = ifelse(day %in% c("Sat", "Sun"), "weekend", "weekday"))  %>%
-   ggplot(aes(x = time_of_day, fill = client)) +
+  ggplot(aes(x = time_of_day, fill = client)) +
   geom_density(alpha = .5, color = NA)+
   facet_wrap(vars(weekday))
 ```
 
-![](03_exercises_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
+![](03_exercises_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
   
   14. Change the graph from the previous problem to facet on `client` and fill with `weekday`. What information does this graph tell you that the previous didn't? Is one graph better than the other?
+  
   This graph tells us that most Casual clients use the bike rental service from midday to late evening no matter the day of the week. Meanwhile, the Registered clients use the bike rental service in the mornings and evenings during the week, and during the midday to late evening during the weekends. I don't necessarily think one graph is better than the other, but is rather more dependent on the question that you are trying to answer (i.e weekend behavior vs. user behavior)
   
 
 ```r
 Trips %>%
-  mutate(time_of_day = round(hour(sdate) + minute(sdate)/60.0, digits = 1)) %>%
+  mutate(time_of_day = round(hour(sdate) +
+         minute(sdate)/60.0, digits = 1)) %>%
   mutate(day = wday(sdate, label = TRUE)) %>%
   mutate(weekday = ifelse(day %in% c("Sat", "Sun"), "weekend", "weekday"))  %>%
-   ggplot(aes(x = time_of_day, fill = weekday)) +
+  ggplot(aes(x = time_of_day, fill = weekday)) +
   geom_density(alpha = .5, color = NA)+
   facet_wrap(vars(client))
 ```
 
-![](03_exercises_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
+![](03_exercises_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
   
 ### Spatial patterns
 
@@ -413,30 +340,28 @@ Trips %>%
   geom_point()
 ```
 
-![](03_exercises_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
+![](03_exercises_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
   
   16. Only 14.4% of the trips in our data are carried out by casual users. Create a plot that shows which area(s) have stations with a much higher percentage of departures by casual users. What patterns do you notice? (Again, we'll improve this next week when we learn about maps).
+  
   I notice that there are is a higher proportion of Casual riders using services from the middle of the cluster (lat 38.9, long -77.05) to the stations furthest away from this cluster(lat 39.1, long -77.2).
   
 
 ```r
 Trips %>%
-  count(sstation, client) %>%
+  group_by(sstation, client) %>%
+  summarize(n = n()) %>%
+  mutate(prop = n/sum(n)) %>%
+  filter(client == "Casual") %>%
   rename(name = sstation) %>%
-  right_join(Stations, by = "name") %>%
-  group_by(name) %>%
-  mutate(total_prop = n/sum(n)) %>% 
-  pivot_wider(names_from = client,
-              values_from = total_prop) %>%
-  select(name, lat, long, Casual)  %>%
-  drop_na() %>%
-  group_by(name) %>%
-  ggplot(aes(x = long, y = lat, color = Casual)) +
-  geom_point()+
+  left_join(Stations) %>%
+  ggplot(aes(x = long, y = lat, color = prop, 
+             size = prop)) +
+  geom_point(alpha = .8)+
   scale_color_continuous(high = "#132B43", low = "#56B1F7")
 ```
 
-![](03_exercises_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
+![](03_exercises_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
   
 ### Spatiotemporal patterns
 
@@ -449,13 +374,6 @@ Top_Ten_Trips <- Trips %>%
   count(sstation, date) %>%
   top_n(10) %>%
   arrange(desc(n))
-```
-
-```
-## Selecting by n
-```
-
-```r
   Top_Ten_Trips
 ```
 
@@ -496,10 +414,6 @@ Top_Ten_Trips %>%
               values_from = total_prop)
 ```
 
-```
-## `summarise()` regrouping output by 'days' (override with `.groups` argument)
-```
-
 <div data-pagedtable="false">
   <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["days"],"name":[1],"type":["ord"],"align":["right"]},{"label":["Casual"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Registered"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Sun","2":"0.5712030","3":"0.4287970"},{"1":"Mon","2":"0.2859932","3":"0.7140068"},{"1":"Tue","2":"0.2405917","3":"0.7594083"},{"1":"Wed","2":"0.1871545","3":"0.8128455"},{"1":"Thu","2":"0.2500637","3":"0.7499363"},{"1":"Fri","2":"0.3217691","3":"0.6782309"},{"1":"Sat","2":"0.6168311","3":"0.3831689"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
@@ -529,27 +443,20 @@ kids %>%
   geom_line(color = "white", size =2) +
   theme(legend.position = "") +
   theme_void() +
-  theme(plot.background = element_rect(fill = "lightsteelblue4")) +
-  facet_geo(vars(state), grid = "us_state_grid3", label = "name") +
+  theme(plot.background = element_rect(
+        fill = "lightsteelblue4")) +
+  facet_geo(vars(state), grid = "us_state_grid3",
+            label = "name") +
   labs(title="Change in public spending on libraries",
-       subtitle = "Dollars spent per child, adjusted for inflation")+
-  theme(plot.title = element_text(hjust = 0.5, size =20, face = "bold"),
-        plot.subtitle = element_text(hjust = 0.5, size = 15))
+       subtitle = "Dollars spent per child,adjusted for inflation")+
+  theme(plot.title = element_text(hjust = 0.5, 
+                                  size =20, 
+                                  face = "bold"),
+        plot.subtitle = element_text(hjust = 0.5,
+                                     size = 15))
 ```
 
-```
-## Warning: Using `as.character()` on a quosure is deprecated as of rlang 0.3.0.
-## Please use `as_label()` or `as_name()` instead.
-## This warning is displayed once per session.
-```
-
-```
-## Some values in the specified facet_geo column 'state' do not match the
-##   'name' column of the specified grid and will be removed: District of
-##   Columbia
-```
-
-![](03_exercises_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
+![](03_exercises_files/figure-html/unnamed-chunk-21-1.png)<!-- -->
 
 
 
